@@ -1,0 +1,12 @@
+/.vs
+/AutomatedTester.BrowserMob/.vs
+/AutomatedTester.BrowserMob/AutomatedTester.BrowserMob/bin
+/AutomatedTester.BrowserMob/AutomatedTester.BrowserMob/obj
+/Scanner/.vs
+/Scanner/bin
+/Scanner/obj
+/Scanner/packages
+/SiteView/*.user
+/SiteView/bin
+/SiteView/obj
+/packages

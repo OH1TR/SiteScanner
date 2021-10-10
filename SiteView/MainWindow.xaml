@@ -1,0 +1,14 @@
+﻿<Window x:Class="SiteView.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SiteView"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="650" Width="800" KeyDown="Window_KeyDown">
+    <DockPanel>
+        <TextBox x:Name="tbData" DockPanel.Dock="Top" KeyDown="tbData_KeyDown"></TextBox>
+        <Image x:Name="iImage" DockPanel.Dock="Top" ></Image>
+        <Button DockPanel.Dock="Bottom" Height="5" x:Name="bBtn"></Button>
+    </DockPanel>
+</Window>
