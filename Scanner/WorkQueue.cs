@@ -1,4 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
+using MongoDB.Driver.Core.Events;
+using Newtonsoft.Json;
 using Scanner.Model;
 using System;
 using System.Collections.Generic;
@@ -22,45 +25,30 @@ namespace Scanner
 
         public WorkItem Pop()
         {
-            WorkItem result=null;
-            Guid id=Guid.Empty;
+            var mongoConnectionUrl = new MongoUrl(ConfigurationManager.AppSettings["ConnectionString"]);
+            var mongoClientSettings = MongoClientSettings.FromUrl(mongoConnectionUrl);
+            /*
+            mongoClientSettings.ClusterConfigurator = cb => {
+                cb.Subscribe<CommandStartedEvent>(e => {
+                    Console.WriteLine($"{e.CommandName} - {e.Command.ToJson()}");
+                });
+            };
+            */
+            var client = new MongoClient(mongoClientSettings);
 
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.AppSettings["SQLConnectionString"]))
-            {
-                SqlCommand command = new SqlCommand("select top 1 ID,Data from Workitems order by Created desc", connection);
-                connection.Open();
-                SqlDataReader reader = command.ExecuteReader();
-                try
-                {
-                    while (reader.Read())
-                    {
-                        result = JsonConvert.DeserializeObject<WorkItem>((string)reader["Data"]);
-                        id = (Guid)reader["ID"];
-                    }
-                }
-                finally
-                {
-                    reader.Close();
-                }
-                SqlCommand command2 = new SqlCommand("delete from Workitems where id=@id", connection);
-                command2.Parameters.AddWithValue("id", id);
-                command2.ExecuteNonQuery();
-            }
+            var database = client.GetDatabase("SiteScanner");
+            var result = database.GetCollection<WorkItem>("WorkItems").Find(I => true).SortByDescending(i=>i.Created).FirstOrDefault();
+            database.GetCollection<WorkItem>("WorkItems").DeleteOne(i => i.Id == result.Id);
 
             return result;
         }
 
         public void Push(WorkItem item)
         {
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.AppSettings["SQLConnectionString"]))
-            {
-                
-                SqlCommand command = new SqlCommand("insert into Workitems(ID,Data,Created) values (@ID,@Data,GETUTCDATE())", connection);
-                connection.Open();
-                command.Parameters.AddWithValue("id", item.Id);
-                command.Parameters.AddWithValue("Data", JsonConvert.SerializeObject(item));
-                command.ExecuteNonQuery();
-            }
+            var client = new MongoClient(ConfigurationManager.AppSettings["ConnectionString"]);
+            var database = client.GetDatabase("SiteScanner");
+            var collection = database.GetCollection<BsonDocument>("WorkItems");
+            collection.InsertOne(item.ToBsonDocument());
         }
     }
 }

@@ -1,0 +1,51 @@
+﻿using DataModel;
+using DataModel.ModuleInterface;
+using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Text;
+
+namespace ScannerBot.Modules.Screenshot
+{
+    class Screenshot : IModule
+    {
+        public BrowserMobProxy mb;
+
+        WebDriver wd;
+        IConfig _config;
+
+        public Screenshot(IConfig config)
+        {
+            _config = config;
+        }
+
+        public bool IPAware => true;
+
+        public IPAddress GetIP(WorkItem item)
+        {
+            var hostEntry = Dns.GetHostEntry(item.Parameters[0]);
+
+            if (hostEntry.AddressList.Length > 0)
+            {
+                return hostEntry.AddressList[0];
+            }
+            return IPAddress.None;
+        }
+
+        public void Init()
+        {
+            mb = new BrowserMobProxy(_config);
+            wd = new WebDriver(_config,mb.GetProxy());
+        }
+
+        public void ProcessItem(WorkItem item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Shutdown()
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

@@ -23,6 +23,9 @@ namespace Scanner
         {
             Filter.Add(new IPAddress(new byte[] { 34, 102, 136, 180 }));
 
+
+            var x = new WorkQueue().Pop();
+
             /*
                         var lines = File.ReadAllLines(@"C:\Users\Tommi_\Downloads\2021-08-24\date-specific-database\2021-08-20.csv");
 

@@ -13,7 +13,7 @@ namespace AutomatedTester.BrowserMob
         private readonly String _path = string.Empty;
         private const string Host = "localhost";
 
-        public Server(string path) : this(path, 8080)
+        public Server(string path) : this(path, 5555)
         {}
 
         public Server(string path, int port)
@@ -30,7 +30,8 @@ namespace AutomatedTester.BrowserMob
                                  };
             if (_port != 0)
             {
-                _serverProcess.StartInfo.Arguments = String.Format("--port={0}", _port);
+                //_serverProcess.StartInfo.Arguments = String.Format("--port={0}", _port);
+                _serverProcess.StartInfo.Arguments = String.Format("--port={0} --use-littleproxy false", _port);
             }
             
             try

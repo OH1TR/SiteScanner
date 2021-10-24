@@ -10,3 +10,11 @@
 /SiteView/bin
 /SiteView/obj
 /packages
+/ScannerBot/bin
+/ScannerBot/obj
+/DataModel/bin
+/DataModel/obj
+/browsermob-proxy-2.1.4
+/Scanner/*.user
+/Scanner/Core
+/ScannerBot/*.user

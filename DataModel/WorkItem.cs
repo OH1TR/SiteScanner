@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
-namespace Scanner.Model
+namespace DataModel
 {
-    class WorkItem
+    public class WorkItem
     {
         public Guid Id { get; set; }
         public DateTime Created { get; set; }

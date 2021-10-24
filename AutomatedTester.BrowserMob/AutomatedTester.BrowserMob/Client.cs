@@ -23,7 +23,7 @@ namespace AutomatedTester.BrowserMob
 
             _url = url;
             _baseUrlProxy = String.Format("{0}/proxy", _url);
-            using (var response = MakeRequest(_baseUrlProxy, "POST"))
+            using (var response = MakeRequest(_baseUrlProxy+ "?trustAllServers=True&useEcc=True", "POST"))
             {
                 var responseStream = response.GetResponseStream();
                 if (responseStream == null)
@@ -47,7 +47,7 @@ namespace AutomatedTester.BrowserMob
 
         public void NewHar(string reference = null, bool captureContent = false)
         {
-            MakeRequest(String.Format("{0}/{1}/har?captureContent=true&captureHeaders=true&captureBinaryContent=true&trustAllServers=true", _baseUrlProxy, _port), "PUT", reference);
+            MakeRequest(String.Format("{0}/{1}/har?captureContent=true&captureHeaders=true&captureBinaryContent=true", _baseUrlProxy, _port), "PUT", reference);
         }
 
         private static WebResponse MakeRequest(string url, string method, string reference = null)
