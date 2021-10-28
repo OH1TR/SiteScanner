@@ -53,7 +53,7 @@ namespace ScannerBot.Modules
                 else
                 {
                     string resultPath = Path.Combine(Scope.WorkDir, "scan.xml");
-                    Console.WriteLine(_commandRunner.RunCommand(_config.GetSetting(typeof(Nmap),"Path") + " -p 80,443,8080-8089 -Pn --host-timeout 30s -oX " + resultPath+" " + item.Parameters[0]));
+                    Console.WriteLine(_commandRunner.RunCommand(_config.GetSetting(typeof(Nmap),"Path") + " -p 80,443,8443,8080-8089 -Pn --host-timeout 30s -oX " + resultPath+" " + item.Parameters[0]));
                     scans.Add(ip, item.Id.ToString());
                 }
             }

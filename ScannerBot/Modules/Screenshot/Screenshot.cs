@@ -1,7 +1,9 @@
 ﻿using DataModel;
 using DataModel.ModuleInterface;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Text;
 
@@ -40,12 +42,17 @@ namespace ScannerBot.Modules.Screenshot
 
         public void ProcessItem(WorkItem item)
         {
-            throw new NotImplementedException();
+            Console.WriteLine("Url:" + item.Parameters[0]);
+            mb.NewHar(item.Id.ToString().Replace("-", ""));
+            wd.OpenURL(item.Parameters[0]);
+            wd.Screenshot(Path.Combine(Scope.WorkDir, "image.jpg"));
+            mb.SaveResultToFile(Path.Combine(Scope.WorkDir, "traffic.har"));
         }
 
         public void Shutdown()
         {
-            throw new NotImplementedException();
+            mb.Terminate();
+            wd.Close();
         }
     }
 }

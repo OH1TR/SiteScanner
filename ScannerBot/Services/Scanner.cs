@@ -22,7 +22,7 @@ namespace ScannerBot.Services
 
             sm.EnsureCreated();
 
-            sm.PushWorkItem(new WorkItem() { Command = "Eyewitness", Parameters = new[] { "https://microsoft.com" }, Created = DateTime.UtcNow, Id = Guid.NewGuid(), Host = "rouvali.com" });
+            //sm.PushWorkItem(new WorkItem() { Command = "Eyewitness", Parameters = new[] { "https://microsoft.com" }, Created = DateTime.UtcNow, Id = Guid.NewGuid(), Host = "rouvali.com" });
 
             WorkItem w;
 

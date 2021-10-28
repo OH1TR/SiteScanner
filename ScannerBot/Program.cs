@@ -21,6 +21,8 @@ namespace ScannerBot
             services.AddSingleton<ModuleResolver>();
             services.AddSingleton<Filter>();
             services.AddSingleton<ShellCommandRunner>();
+            services.AddSingleton<Scheduler>();
+            services.AddSingleton<Scanner>();
             Scope.Services = services.BuildServiceProvider(true);
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
@@ -30,7 +32,10 @@ namespace ScannerBot
                 shell.RunCommand("kill firefox");
             }
 
-            Scanner sc = new Scanner();
+            Scheduler s = Scope.Services.GetRequiredService<Scheduler>();
+            s.Process();
+
+            Scanner sc = Scope.Services.GetRequiredService<Scanner>();
             sc.Process();
 
         }

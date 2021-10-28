@@ -24,11 +24,8 @@ namespace ScannerBot.Modules.Screenshot
             var e=profileManager.ExistingProfiles;
             FirefoxProfile profile = profileManager.GetProfile(config.GetSetting(typeof(Screenshot), "FirefoxProfile"));
             
-
-
             //profile.SetProxyPreferences(seleniumProxy);
             //profile.AcceptUntrustedCertificates = true;
-
 
             options.Profile = profile;
             driver = new FirefoxDriver(options);

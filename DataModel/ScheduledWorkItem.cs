@@ -8,9 +8,9 @@ namespace DataModel
     {
         public Guid Id { get; set; }
         public DateTime Created { get; set; }
-        DateTime LastRun { get; set; }
-        int Interval { get; set; }
-        WorkItem Work { get; set; }
+        public DateTime LastScheduledTime { get; set; }
+        public int Interval { get; set; }
+        public WorkItem Work { get; set; }
 
     }
 }
