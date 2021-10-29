@@ -30,8 +30,8 @@ namespace AutomatedTester.BrowserMob
                                  };
             if (_port != 0)
             {
-                //_serverProcess.StartInfo.Arguments = String.Format("--port={0}", _port);
-                _serverProcess.StartInfo.Arguments = String.Format("--port={0} --use-littleproxy false", _port);
+                _serverProcess.StartInfo.Arguments = String.Format("--port={0}", _port);
+                //_serverProcess.StartInfo.Arguments = String.Format("--port={0} --use-littleproxy false", _port);
             }
             
             try

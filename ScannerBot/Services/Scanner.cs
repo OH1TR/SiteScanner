@@ -23,6 +23,23 @@ namespace ScannerBot.Services
             sm.EnsureCreated();
 
             //sm.PushWorkItem(new WorkItem() { Command = "Eyewitness", Parameters = new[] { "https://microsoft.com" }, Created = DateTime.UtcNow, Id = Guid.NewGuid(), Host = "rouvali.com" });
+            /*
+            sm.AddItem(new ScheduledWorkItem()
+            {
+                Created = DateTime.UtcNow,
+                Id = Guid.NewGuid(),
+                LastScheduledTime = new DateTime(2020, 1, 1),
+                Interval = 86400,
+                Work = new WorkItem()
+                {
+                    Created = DateTime.UtcNow,
+                    Id = Guid.NewGuid(),
+                    Command = "DomainFinder",
+                    Parameters = new[] { "*posti*" },
+                    PostEvents = new[] { "DomainFinderPA" }
+                }
+            });
+            */
 
             WorkItem w;
 
@@ -64,6 +81,7 @@ namespace ScannerBot.Services
                         foreach (var pe in w.PostEvents)
                         {
                             var postEvent = resolver.GetInstanceFor(pe);
+                            Console.WriteLine("Executing post event:" + pe);
                             postEvent.ProcessItem(w);
                         }
                     }
@@ -86,6 +104,7 @@ namespace ScannerBot.Services
             resolver.Shutdown();
 
             Console.WriteLine("All done");
+            Environment.Exit(123);
         }
 
         void WriteScanResult(WorkItem item, string message, string stacktrace, int code)

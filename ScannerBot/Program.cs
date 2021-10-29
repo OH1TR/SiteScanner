@@ -3,10 +3,13 @@ using DataModel.AdvancedServiceProvider;
 using DataModel.ModuleInterface;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ScannerBot.Modules.Screenshot;
 using ScannerBot.Services;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace ScannerBot
 {
@@ -14,7 +17,12 @@ namespace ScannerBot
     {
         static void Main(string[] args)
         {
-                var services = new ServiceCollection();
+            //https://stackoverflow.com/questions/56802715/firefoxwebdriver-no-data-is-available-for-encoding-437
+            CodePagesEncodingProvider.Instance.GetEncoding(437);
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
+
+            var services = new ServiceCollection();
             services.AddSingleton<IConfig, Config>();
             services.AddSingleton(i => new ScannerModel(ScannerModel.Driver.Mongo, i.GetRequiredService<IConfig>().ConnectionString));
             services.AddSingleton<ILog, Log>();
@@ -31,6 +39,17 @@ namespace ScannerBot
                 shell.RunCommand("kill java");
                 shell.RunCommand("kill firefox");
             }
+
+
+             //WebDriver w = new WebDriver(Scope.Services.GetRequiredService<IConfig>(),"");
+
+
+
+            foreach (var process in Process.GetProcessesByName("firefox"))
+                process.Kill();
+
+            foreach (var process in Process.GetProcessesByName("java"))
+                process.Kill();
 
             Scheduler s = Scope.Services.GetRequiredService<Scheduler>();
             s.Process();

@@ -36,7 +36,7 @@ namespace ScannerBot.Services
         {
             foreach (var i in SlowIPs)
             {
-                if (IPAddress.Parse(i.IPAddress) == ip)
+                if (IPAddress.Parse(i.IPAddress).Address == ip.Address)
                     return true;
             }
             return false;

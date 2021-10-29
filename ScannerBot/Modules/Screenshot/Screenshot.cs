@@ -25,7 +25,7 @@ namespace ScannerBot.Modules.Screenshot
 
         public IPAddress GetIP(WorkItem item)
         {
-            var hostEntry = Dns.GetHostEntry(item.Parameters[0]);
+            var hostEntry = Dns.GetHostEntry(item.Host);
 
             if (hostEntry.AddressList.Length > 0)
             {

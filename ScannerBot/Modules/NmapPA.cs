@@ -32,8 +32,11 @@ namespace ScannerBot.Modules
 
         public void ProcessItem(WorkItem item)
         {
-            if (!File.Exists(Path.Combine(Scope.WorkDir , "\\scan.xml")))
+            if (!File.Exists(Path.Combine(Scope.WorkDir, "scan.xml")))
+            {
+                Console.WriteLine("No scan.xml");
                 return;
+            }
 
             WorkItem originalWorkItem = JsonConvert.DeserializeObject<WorkItem>(File.ReadAllText(Path.Combine(Scope.WorkDir, "workitem.json")));
 
@@ -51,18 +54,20 @@ namespace ScannerBot.Modules
 
                     if (protocol == "tcp" && portid == 80 && state == "open")
                     {
-                        
-                        _scannerModel.PushWorkItem(new WorkItem() { Id = Guid.NewGuid(), Host = originalWorkItem.Host, Command = "Screenshot", Parameters = new[] { "http://" + originalWorkItem.Parameters[0] } });
+                        Console.WriteLine("Adding work item");
+                        _scannerModel.PushWorkItem(new WorkItem() { Id = Guid.NewGuid(), Created = DateTime.UtcNow, Host = originalWorkItem.Host, Command = "Screenshot", Parameters = new[] { "http://" + originalWorkItem.Parameters[0] } });
                     }
 
                     if (protocol == "tcp" && (portid == 443 || portid == 8443) && state == "open")
                     {
-                        _scannerModel.PushWorkItem(new WorkItem() { Id = Guid.NewGuid(), Host = originalWorkItem.Host, Command = "Screenshot", Parameters = new[] { "https://" + originalWorkItem.Parameters[0] } });
+                        Console.WriteLine("Adding work item");
+                        _scannerModel.PushWorkItem(new WorkItem() { Id = Guid.NewGuid(), Created = DateTime.UtcNow, Host = originalWorkItem.Host, Command = "Screenshot", Parameters = new[] { "https://" + originalWorkItem.Parameters[0] } });
                     }
 
                     if (protocol == "tcp" && portid >= 8080 && portid <= 8089 && state == "open")
                     {
-                        _scannerModel.PushWorkItem(new WorkItem() { Id = Guid.NewGuid(), Host = originalWorkItem.Host, Command = "Screenshot", Parameters = new[] { "http://" + originalWorkItem.Parameters[0] + ":" + portid } });
+                        Console.WriteLine("Adding work item");
+                        _scannerModel.PushWorkItem(new WorkItem() { Id = Guid.NewGuid(), Created = DateTime.UtcNow, Host = originalWorkItem.Host, Command = "Screenshot", Parameters = new[] { "http://" + originalWorkItem.Parameters[0] + ":" + portid } });
                     }
                 }
             }

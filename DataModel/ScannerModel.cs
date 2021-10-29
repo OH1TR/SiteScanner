@@ -135,8 +135,8 @@ namespace DataModel
 
             var prop = typeof(T).GetProperty("Id");
             Guid id = (Guid)prop.GetValue(item);
-
-            collection.ReplaceOne(new BsonDocument("Id", id), item);
+            var filter = Builders<T>.Filter.Eq("Id", id);
+            var x=collection.ReplaceOne(filter, item);
         }
     }
 }

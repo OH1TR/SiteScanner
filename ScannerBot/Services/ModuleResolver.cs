@@ -53,13 +53,18 @@ namespace ScannerBot.Services
         public IModule GetInstanceFor(string moduleName)
         {
             var result = Modules.FirstOrDefault(i => i.Name == moduleName);
-            if(result.Instance==null)
+
+            if (result == null)
+                throw new Exception("Cannot resolve command" + moduleName);
+
+            if (result.Instance == null)
             {
                 result.Instance = (IModule)ActivatorUtilities.CreateInstance(Scope.Services, result.Type);
                 result.Instance.Init();
                 return result.Instance;
             }
-            return null;
+            else
+                return result.Instance;
         }
         public void Shutdown()
         {

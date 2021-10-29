@@ -20,10 +20,16 @@ namespace ScannerBot.Modules.Screenshot
             options.AddArguments("--width="+ width.ToString());
             options.AddArguments("--height="+height.ToString());
 
+            Console.WriteLine("Your profiles");
             var profileManager = new FirefoxProfileManager();
-            var e=profileManager.ExistingProfiles;
+            foreach (var p in profileManager.ExistingProfiles)
+                Console.WriteLine(p);
+
             FirefoxProfile profile = profileManager.GetProfile(config.GetSetting(typeof(Screenshot), "FirefoxProfile"));
             
+            if(profile==null)
+                Console.WriteLine("***profile==null");
+            var pro=profile.ToBase64String();
             //profile.SetProxyPreferences(seleniumProxy);
             //profile.AcceptUntrustedCertificates = true;
 
