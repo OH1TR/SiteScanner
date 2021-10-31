@@ -33,30 +33,34 @@ namespace ScannerBot
             services.AddSingleton<Scanner>();
             Scope.Services = services.BuildServiceProvider(true);
 
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            if (!System.Diagnostics.Debugger.IsAttached)
             {
-                var shell=Scope.Services.GetService<ShellCommandRunner>();
-                shell.RunCommand("kill java");
-                shell.RunCommand("kill firefox");
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                {
+                    var shell = Scope.Services.GetService<ShellCommandRunner>();
+                    shell.RunCommand("kill java");
+                    shell.RunCommand("kill firefox");
+                }
+                else
+                {
+                    foreach (var process in Process.GetProcessesByName("firefox"))
+                        process.Kill();
+
+                    foreach (var process in Process.GetProcessesByName("java"))
+                        process.Kill();
+                }
             }
 
+            //Scope.Services.GetRequiredService<ScannerModel>().SetSetting("VMControl", "ApiKey", Guid.NewGuid().ToString());
+            //Scope.Services.GetRequiredService<ScannerModel>().SetSetting("VMControl", "WebSite", "https://scannerwebsitexxx.azurewebsites.net");
 
-             //WebDriver w = new WebDriver(Scope.Services.GetRequiredService<IConfig>(),"");
-
-
-
-            foreach (var process in Process.GetProcessesByName("firefox"))
-                process.Kill();
-
-            foreach (var process in Process.GetProcessesByName("java"))
-                process.Kill();
+            Scope.Services.GetRequiredService<ScannerModel>().EnsureCreated();
 
             Scheduler s = Scope.Services.GetRequiredService<Scheduler>();
             s.Process();
 
             Scanner sc = Scope.Services.GetRequiredService<Scanner>();
             sc.Process();
-
         }
     }
 }

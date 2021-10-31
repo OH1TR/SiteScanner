@@ -18,3 +18,8 @@
 /Scanner/*.user
 /Scanner/Core
 /ScannerBot/*.user
+/Junkyard
+/ScannerBot/Properties/PublishProfiles/*.user
+/ScannerWebSite/bin
+/ScannerWebSite/obj
+/ScannerWebSite/*.user

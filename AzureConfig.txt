@@ -1,0 +1,4 @@
+VM IAM-> Grant access to this resource -> Add role assignment: Owner, members: Managed identity-> website and function (Bad!)
+VM Tag-> SiteScanner=true
+Website Subscription id
+

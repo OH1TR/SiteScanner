@@ -3,15 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31410.357
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scanner", "Scanner\Scanner.csproj", "{28DA2E84-2F59-4119-9CFE-4689E373735F}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SiteView", "SiteView\SiteView.csproj", "{B558670B-D180-429B-94A1-6BFEED0596FB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutomatedTester.BrowserMob", "AutomatedTester.BrowserMob\AutomatedTester.BrowserMob\AutomatedTester.BrowserMob.csproj", "{A8C349FD-5720-40C2-9A63-F4A57F0FA5DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataModel", "DataModel\DataModel.csproj", "{C9C67251-94AF-4912-9ED0-4E70E404F80A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataModel", "DataModel\DataModel.csproj", "{C9C67251-94AF-4912-9ED0-4E70E404F80A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScannerBot", "ScannerBot\ScannerBot.csproj", "{2867FF09-0026-4286-A0D2-D5C07EACC17E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScannerBot", "ScannerBot\ScannerBot.csproj", "{2867FF09-0026-4286-A0D2-D5C07EACC17E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VMStartFunction", "VMStartFunction\VMStartFunction.csproj", "{B8836315-6E74-4749-96DD-DF6F97EB79CB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScannerWebSite", "ScannerWebSite\ScannerWebSite.csproj", "{594035EE-76DA-4CD7-AB87-5B49BEDF661D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,10 +21,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{28DA2E84-2F59-4119-9CFE-4689E373735F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{28DA2E84-2F59-4119-9CFE-4689E373735F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{28DA2E84-2F59-4119-9CFE-4689E373735F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{28DA2E84-2F59-4119-9CFE-4689E373735F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B558670B-D180-429B-94A1-6BFEED0596FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B558670B-D180-429B-94A1-6BFEED0596FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B558670B-D180-429B-94A1-6BFEED0596FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,6 +37,14 @@ Global
 		{2867FF09-0026-4286-A0D2-D5C07EACC17E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2867FF09-0026-4286-A0D2-D5C07EACC17E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2867FF09-0026-4286-A0D2-D5C07EACC17E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8836315-6E74-4749-96DD-DF6F97EB79CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8836315-6E74-4749-96DD-DF6F97EB79CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8836315-6E74-4749-96DD-DF6F97EB79CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8836315-6E74-4749-96DD-DF6F97EB79CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{594035EE-76DA-4CD7-AB87-5B49BEDF661D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{594035EE-76DA-4CD7-AB87-5B49BEDF661D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{594035EE-76DA-4CD7-AB87-5B49BEDF661D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{594035EE-76DA-4CD7-AB87-5B49BEDF661D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

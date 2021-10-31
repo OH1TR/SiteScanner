@@ -23,18 +23,28 @@ namespace DataModel
 
         public void EnsureCreated()
         {
-            var col = Database.ListCollections().ToList().Select(i=>i["name"].AsString).ToList();
+            var existingCollections = Database.ListCollections().ToList().Select(i => i["name"].AsString).ToList();
 
-            EnsureCollectionCreated<WorkItem>(col,new Expression<Func<WorkItem, object>>[] {i=>i.Id, i => i.Created });
-            EnsureCollectionCreated<Pin>(col, new Expression<Func<Pin, object>>[] { i => i.Id, i => i.Created });
-            EnsureCollectionCreated<ScheduledWorkItem>(col, new Expression<Func<ScheduledWorkItem, object>>[] { i => i.Id, i => i.Created });
-            EnsureCollectionCreated<FilteredIP>(col, new Expression<Func<FilteredIP, object>>[] { i => i.Id });
-            EnsureCollectionCreated<SlowIP>(col, new Expression<Func<SlowIP, object>>[] { i => i.Id, i => i.Created });
+            EnsureCollectionCreated<WorkItem>(existingCollections, new Expression<Func<WorkItem, object>>[] { i => i.Id, i => i.Created });
+            EnsureCollectionCreated<Pin>(existingCollections, new Expression<Func<Pin, object>>[] { i => i.Id, i => i.Created });
+            EnsureCollectionCreated<ScheduledWorkItem>(existingCollections, new Expression<Func<ScheduledWorkItem, object>>[] { i => i.Id, i => i.Created });
+            EnsureCollectionCreated<FilteredIP>(existingCollections, new Expression<Func<FilteredIP, object>>[] { i => i.Id });
+            EnsureCollectionCreated<SlowIP>(existingCollections, new Expression<Func<SlowIP, object>>[] { i => i.Id, i => i.Created });
+            EnsureCollectionCreated<User>(existingCollections, new Expression<Func<User, object>>[] { i => i.Id });
+            EnsureCollectionCreated<Setting>(existingCollections, i =>
+            {
+                i.Indexes.CreateOne(new CreateIndexModel<Setting>(Builders<Setting>.IndexKeys.Ascending(i => i.Id)));
+                i.Indexes.CreateOne(new CreateIndexModel<Setting>(Builders<Setting>.IndexKeys.Ascending(i => i.Created)));
+                var indexDefinition = Builders<Setting>.IndexKeys.Combine(
+                    Builders<Setting>.IndexKeys.Ascending(f => f.Module),
+                    Builders<Setting>.IndexKeys.Ascending(f => f.Name));
+                i.Indexes.CreateOne(new CreateIndexModel<Setting>(indexDefinition));
+            });
         }
 
         void EnsureCollectionCreated<T>(List<string> existing, Expression<Func<T, object>>[] index)
         {
-            string collectionName=ItemToCollectionName<T>();
+            string collectionName = ItemToCollectionName<T>();
 
             if (!existing.Contains(collectionName))
             {
@@ -45,6 +55,18 @@ namespace DataModel
                     var indexKeysDefinition = Builders<T>.IndexKeys.Ascending(i);
                     collection.Indexes.CreateOne(new CreateIndexModel<T>(indexKeysDefinition));
                 }
+            }
+        }
+
+        void EnsureCollectionCreated<T>(List<string> existing, Action<IMongoCollection<T>> indexFunc)
+        {
+            string collectionName = ItemToCollectionName<T>();
+
+            if (!existing.Contains(collectionName))
+            {
+                Database.CreateCollection(collectionName);
+                var collection = Database.GetCollection<T>(collectionName);
+                indexFunc(collection);
             }
         }
 
@@ -64,6 +86,12 @@ namespace DataModel
         {
             var collection = Database.GetCollection<WorkItem>("WorkItems");
             collection.InsertOne(item);
+        }
+
+        public bool HasWorkItems()
+        {
+            var collection = Database.GetCollection<WorkItem>("WorkItems");
+            return collection.CountDocuments(i => true) > 0;
         }
 
         public void SetScannerPin(bool set)
@@ -136,7 +164,25 @@ namespace DataModel
             var prop = typeof(T).GetProperty("Id");
             Guid id = (Guid)prop.GetValue(item);
             var filter = Builders<T>.Filter.Eq("Id", id);
-            var x=collection.ReplaceOne(filter, item);
+            var x = collection.ReplaceOne(filter, item);
+        }
+
+        public Setting GetSetting(string module,string name)
+        {
+            return Database.GetCollection<Setting>("Settings").Find(i=>i.Module==module && i.Name==name).FirstOrDefault();
+        }
+
+        public void SetSetting(string module, string name,string value)
+        {
+            var val= Database.GetCollection<Setting>("Settings").Find(i => i.Module == module && i.Name == name).FirstOrDefault();
+
+            if (val == null)
+                AddItem(new Setting() { Id = Guid.NewGuid(), Created = DateTime.UtcNow, Module = module, Name = name, Value = value });
+            else
+            {
+                val.Value = value;
+                UpdateItem(val);
+            }
         }
     }
 }

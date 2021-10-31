@@ -7,6 +7,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using Microsoft.Extensions.DependencyInjection;
+using System.Net.Http;
 
 namespace ScannerBot.Services
 {
@@ -19,8 +20,6 @@ namespace ScannerBot.Services
             var resolver = Scope.Services.GetRequiredService<ModuleResolver>();
             var filter = Scope.Services.GetRequiredService<Filter>();
             var sm = Scope.Services.GetRequiredService<ScannerModel>();
-
-            sm.EnsureCreated();
 
             //sm.PushWorkItem(new WorkItem() { Command = "Eyewitness", Parameters = new[] { "https://microsoft.com" }, Created = DateTime.UtcNow, Id = Guid.NewGuid(), Host = "rouvali.com" });
             /*
@@ -58,7 +57,7 @@ namespace ScannerBot.Services
                     {
                         ip = module.GetIP(w);
 
-                        if (ip!=IPAddress.None)
+                        if (ip != IPAddress.None)
                         {
                             if (filter.IsFiltered(ip, out string reason))
                             {
@@ -104,13 +103,32 @@ namespace ScannerBot.Services
             resolver.Shutdown();
 
             Console.WriteLine("All done");
+
+            if (!System.Diagnostics.Debugger.IsAttached)
+                VMShutdown();
+
             Environment.Exit(123);
         }
 
         void WriteScanResult(WorkItem item, string message, string stacktrace, int code)
         {
-            var result = new ScanResult() { Id = item.Id, Created = DateTime.UtcNow, Message = message, StackTrace = stacktrace ,Code=code};
+            var result = new ScanResult() { Id = item.Id, Created = DateTime.UtcNow, Message = message, StackTrace = stacktrace, Code = code };
             File.WriteAllText(Path.Combine(Scope.WorkDir, "ScanResult.json"), JsonConvert.SerializeObject(result));
+        }
+
+        public void VMShutdown()
+        {
+            var cmdrun = Scope.Services.GetRequiredService<ShellCommandRunner>();
+            var sm = Scope.Services.GetRequiredService<ScannerModel>();
+
+            string apiKey = sm.GetSetting("VMControl", "ApiKey")?.Value;
+            string webSite = sm.GetSetting("VMControl", "WebSite")?.Value;
+
+            string req = "{\"ApiKey\":\"##KEY##\",\"Command\":\"stop\"}".Replace("##KEY##", apiKey);
+            var client = new HttpClient();
+            var res = client.PostAsync(webSite + "/VMControl", new StringContent(req, Encoding.UTF8, "application/json")).Result;
+            Console.WriteLine("Shutdown api:" + res.StatusCode);
+            cmdrun.RunCommand("Shutdown /s /f /t 1");
         }
     }
 }
