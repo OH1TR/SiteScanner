@@ -169,12 +169,11 @@ namespace DataModel
 
         public Setting GetSetting(string module,string name)
         {
-            return Database.GetCollection<Setting>("Settings").Find(i=>i.Module==module && i.Name==name).FirstOrDefault();
+            return Database.GetCollection<Setting>(ItemToCollectionName<Setting>()).Find(i=>i.Module==module && i.Name==name).FirstOrDefault();
         }
-
-        public void SetSetting(string module, string name,string value)
+        public void SetSetting(string module, string name, string value)
         {
-            var val= Database.GetCollection<Setting>("Settings").Find(i => i.Module == module && i.Name == name).FirstOrDefault();
+            var val = Database.GetCollection<Setting>("Settings").Find(i => i.Module == module && i.Name == name).FirstOrDefault();
 
             if (val == null)
                 AddItem(new Setting() { Id = Guid.NewGuid(), Created = DateTime.UtcNow, Module = module, Name = name, Value = value });
@@ -183,6 +182,20 @@ namespace DataModel
                 val.Value = value;
                 UpdateItem(val);
             }
+        }
+
+        public User GetUser(string name)
+        {
+            var val = Database.GetCollection<User>(ItemToCollectionName<User>()).Find(i => i.Username == name).FirstOrDefault();
+
+            return val;
+        }
+
+        public User GetUserByGuid(Guid id)
+        {
+            var val = Database.GetCollection<User>(ItemToCollectionName<User>()).Find(i => i.Id == id).FirstOrDefault();
+
+            return val;
         }
     }
 }

@@ -13,8 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScannerBot", "ScannerBot\Sc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VMStartFunction", "VMStartFunction\VMStartFunction.csproj", "{B8836315-6E74-4749-96DD-DF6F97EB79CB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScannerWebSite", "ScannerWebSite\ScannerWebSite.csproj", "{594035EE-76DA-4CD7-AB87-5B49BEDF661D}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,10 +39,6 @@ Global
 		{B8836315-6E74-4749-96DD-DF6F97EB79CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8836315-6E74-4749-96DD-DF6F97EB79CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8836315-6E74-4749-96DD-DF6F97EB79CB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{594035EE-76DA-4CD7-AB87-5B49BEDF661D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{594035EE-76DA-4CD7-AB87-5B49BEDF661D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{594035EE-76DA-4CD7-AB87-5B49BEDF661D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{594035EE-76DA-4CD7-AB87-5B49BEDF661D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -21,7 +21,7 @@ namespace ScannerBot.Services
             var items = _scannerModel.GetAllItems<ScheduledWorkItem>();
             foreach (var item in items)
             {
-                if (item.LastScheduledTime.AddSeconds(item.Interval) < now)
+                if (item.LastScheduledTime < now)
                 {
                     while (item.LastScheduledTime < now)
                         item.LastScheduledTime = item.LastScheduledTime.AddSeconds(item.Interval);
