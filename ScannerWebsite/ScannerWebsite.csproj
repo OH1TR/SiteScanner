@@ -19,6 +19,7 @@
     <PackageReference Include="Microsoft.Azure.Management.Compute.Fluent" Version="1.38.0" />
     <PackageReference Include="Microsoft.Azure.Management.Fluent" Version="1.38.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.14.1" />
+    <PackageReference Include="tusdotnet" Version="2.4.0" />
   </ItemGroup>
 
   <ItemGroup>

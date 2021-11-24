@@ -7,7 +7,17 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using System.Collections.Generic;
+using System.IO;
 using System.Text;
+using tusdotnet;
+using tusdotnet.Interfaces;
+using tusdotnet.Models;
+using tusdotnet.Models.Configuration;
+using tusdotnet.Stores;
+using Microsoft.AspNetCore.Http;
+using System;
+using System.Linq;
 
 namespace ScannerWebsite
 {
@@ -56,6 +66,9 @@ namespace ScannerWebsite
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            if (!Directory.Exists(Configuration["AppSettings:StorageDir"]))
+                Directory.CreateDirectory(Configuration["AppSettings:StorageDir"]);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -81,6 +94,20 @@ namespace ScannerWebsite
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseTus(httpContext => new DefaultTusConfiguration
+            {
+                Store = new TusDiskStore(Configuration["AppSettings:StorageDir"]),
+                UrlPath = "/" + Constants.STORAGEURLPART,
+                Events = new Events
+                {
+                    OnAuthorizeAsync = async auth =>
+                    {
+                        if (auth.HttpContext.User.Claims.FirstOrDefault(i => i.Type == "id") == null) 
+                            auth.FailRequest("Not authenticated");
+                    }
+                }
+            });
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
@@ -90,9 +117,6 @@ namespace ScannerWebsite
 
             app.UseSpa(spa =>
             {
-                // To learn more about options for serving an Angular SPA from ASP.NET Core,
-                // see https://go.microsoft.com/fwlink/?linkid=864501
-
                 spa.Options.SourcePath = "ClientApp";
 
                 if (env.IsDevelopment())

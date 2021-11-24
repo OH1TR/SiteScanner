@@ -31,6 +31,7 @@ namespace ScannerBot
             services.AddSingleton<ShellCommandRunner>();
             services.AddSingleton<Scheduler>();
             services.AddSingleton<Scanner>();
+            services.AddSingleton<DataUploader>();
             Scope.Services = services.BuildServiceProvider(true);
 
             if (!System.Diagnostics.Debugger.IsAttached)
