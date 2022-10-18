@@ -23,3 +23,13 @@
 /ScannerWebSite/bin
 /ScannerWebSite/obj
 /ScannerWebSite/*.user
+/Archiver/bin
+/Archiver/obj
+/BotCreator/bin
+/BotCreator/obj
+/CodeGenerator/bin
+/CodeGenerator/obj
+/VMControl/bin
+/VMControl/obj
+/botcmd/obj
+/botcmd/bin

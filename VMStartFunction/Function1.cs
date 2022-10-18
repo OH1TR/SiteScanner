@@ -13,6 +13,8 @@ namespace VMStartFunction
 {
     public static class Function1
     {
+        const string WindowsInstanceName = "Windows";
+
         [FunctionName("VMStartFunction")]
         public static void Run([TimerTrigger("0 0 * * * *")] TimerInfo myTimer, ILogger log)
         {
@@ -22,14 +24,14 @@ namespace VMStartFunction
 
                 ScannerModel model = new ScannerModel(ScannerModel.Driver.Mongo, Environment.GetEnvironmentVariable("ConnectionString", EnvironmentVariableTarget.Process));
 
-                if (HasSheduledTasks(model))
+                if (HasSheduledTasks(model, WindowsInstanceName))
                 {
                     log.LogInformation($"New tasks, starting..");
                     StartVM(log);
                     return;
                 }
 
-                if (model.HasWorkItems())
+                if (model.HasWorkItems(WindowsInstanceName))
                 {
                     log.LogInformation($"WorkItems starting..");
                     StartVM(log);
@@ -42,14 +44,14 @@ namespace VMStartFunction
             }
         }
 
-        static bool HasSheduledTasks(ScannerModel model)
+        static bool HasSheduledTasks(ScannerModel model,string Instance)
         {
             DateTime now = DateTime.UtcNow;
 
             var items = model.GetAllItems<ScheduledWorkItem>();
             foreach (var item in items)
             {
-                if (item.LastScheduledTime < now)
+                if (item.LastScheduledTime < now && item.Work.ScannerInstance==Instance)
                 {
                     return true;
                 }

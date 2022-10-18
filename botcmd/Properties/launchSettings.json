@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "botcmd": {
+      "commandName": "Project",
+      "commandLineArgs": "-a Screenshot -t https://www.rouvali.com"
+    }
+  }
+}

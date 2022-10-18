@@ -5,8 +5,9 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Azure.Identity" Version="1.5.0" />
-    <PackageReference Include="Microsoft.Azure.Management.Compute.Fluent" Version="1.38.0" />
-    <PackageReference Include="Microsoft.Azure.Management.Fluent" Version="1.38.0" />
+    <PackageReference Include="Microsoft.Azure.Management.Compute.Fluent" Version="1.38.1" />
+    <PackageReference Include="Microsoft.Azure.Management.Fluent" Version="1.38.1" />
+    <PackageReference Include="Microsoft.Azure.WebJobs.Extensions" Version="4.0.1" />
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.13" />
   </ItemGroup>
   <ItemGroup>

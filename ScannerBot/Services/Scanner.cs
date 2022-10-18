@@ -9,10 +9,7 @@ using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net.Http;
 using System.IO.Compression;
-using Microsoft.Azure.Storage;
 using System.Threading.Tasks;
-using Microsoft.WindowsAzure.Storage.Blob;
-using Microsoft.WindowsAzure.Storage;
 
 namespace ScannerBot.Services
 {
@@ -27,28 +24,9 @@ namespace ScannerBot.Services
             var sm = Scope.Services.GetRequiredService<ScannerModel>();
             var du= Scope.Services.GetRequiredService<DataUploader>();
 
-            //sm.PushWorkItem(new WorkItem() { Command = "Eyewitness", Parameters = new[] { "https://microsoft.com" }, Created = DateTime.UtcNow, Id = Guid.NewGuid(), Host = "rouvali.com" });
-            /*
-            sm.AddItem(new ScheduledWorkItem()
-            {
-                Created = DateTime.UtcNow,
-                Id = Guid.NewGuid(),
-                LastScheduledTime = new DateTime(2020, 1, 1),
-                Interval = 86400,
-                Work = new WorkItem()
-                {
-                    Created = DateTime.UtcNow,
-                    Id = Guid.NewGuid(),
-                    Command = "DomainFinder",
-                    Parameters = new[] { "*posti*" },
-                    PostEvents = new[] { "DomainFinderPA" }
-                }
-            });
-            */
-
             WorkItem w;
 
-            while ((w = sm.PopWorkItem()) != null)
+            while ((w = sm.PopWorkItem(Program.InstanceName)) != null)
             {
                 IPAddress ip = IPAddress.None;
                 try
@@ -114,7 +92,7 @@ namespace ScannerBot.Services
 
             Console.WriteLine("Upload done");
 
-            if (!System.Diagnostics.Debugger.IsAttached)
+            if (!System.Diagnostics.Debugger.IsAttached && !File.Exists("c:\\debug.txt"))
                 VMShutdown();
 
             Environment.Exit(123);

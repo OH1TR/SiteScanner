@@ -70,10 +70,11 @@ namespace DataModel
             }
         }
 
-        public WorkItem PopWorkItem()
+
+        public WorkItem PopWorkItem(string instance)
         {
 
-            var result = Database.GetCollection<WorkItem>("WorkItems").Find(I => true).SortByDescending(i => i.Created).FirstOrDefault();
+            var result = Database.GetCollection<WorkItem>("WorkItems").Find(i => i.ScannerInstance==instance).SortByDescending(i => i.Created).FirstOrDefault();
             if (result == null)
                 return null;
 
@@ -82,16 +83,17 @@ namespace DataModel
             return result;
         }
 
-        public void PushWorkItem(WorkItem item)
+        public WorkItem PushWorkItem(WorkItem item)
         {
             var collection = Database.GetCollection<WorkItem>("WorkItems");
             collection.InsertOne(item);
+            return item;
         }
 
-        public bool HasWorkItems()
+        public bool HasWorkItems(string instance)
         {
             var collection = Database.GetCollection<WorkItem>("WorkItems");
-            return collection.CountDocuments(i => true) > 0;
+            return collection.CountDocuments(i => i.ScannerInstance==instance) > 0;
         }
 
         public void SetScannerPin(bool set)

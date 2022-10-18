@@ -15,6 +15,7 @@ namespace ScannerBot
 {
     class Program
     {
+        public static string InstanceName;
         static void Main(string[] args)
         {
             //https://stackoverflow.com/questions/56802715/firefoxwebdriver-no-data-is-available-for-encoding-437
@@ -39,8 +40,10 @@ namespace ScannerBot
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
                 {
                     var shell = Scope.Services.GetService<ShellCommandRunner>();
-                    shell.RunCommand("kill java");
-                    shell.RunCommand("kill firefox");
+                    shell.RunCommand("pkill java");
+                    shell.RunCommand("pkill firefox");
+
+                    InstanceName = "Linux";
                 }
                 else
                 {
@@ -49,6 +52,8 @@ namespace ScannerBot
 
                     foreach (var process in Process.GetProcessesByName("java"))
                         process.Kill();
+
+                    InstanceName = "Windows";
                 }
             }
 
