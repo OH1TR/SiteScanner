@@ -33,7 +33,7 @@ namespace SiteView
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            Directories = Directory.GetDirectories(@"D:\ScannerResults2\dump2");
+            Directories = Directory.GetDirectories(@"D:\WebHarvest\59a45a9ef2f446faac67126e12fbd33d");
             pos = 0;
             while (!File.Exists(Directories[pos] + "\\image.jpg") && pos < Directories.Length)
                 pos++;

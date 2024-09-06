@@ -33,3 +33,6 @@
 /VMControl/obj
 /botcmd/obj
 /botcmd/bin
+/WebSite/Controllers/*.bak
+/WebSite/Models/*.bak
+*.bak

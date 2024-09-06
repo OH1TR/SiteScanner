@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "BotCreator": {
+      "commandName": "Project",
+      "commandLineArgs": "CreateAzureVM Scanner xx C:\\Projects\\SiteScanner\\BotCreator\\Bootstrap.ps1",
+      "workingDirectory": "C:\\Projects\\SiteScanner\\BotCreator"
+    }
+  }
+}
